@@ -27,7 +27,7 @@ export default function ClientsList({ clients: initialClients }: ClientsListProp
             </AccordionSummary>
             <AccordionDetails style={{ flexWrap: 'wrap' }}>
               {operator.clients?.map(client => (
-                <div style={{ padding: '2rem' }}>
+                <div key={client.id} style={{ padding: '2rem' }}>
                   <p>{client.nome}</p>
                   <p>{client.aniversario}</p>
                   <p>{client.value}</p>
