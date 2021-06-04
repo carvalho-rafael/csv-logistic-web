@@ -1,33 +1,32 @@
-import { Button, Container, FormGroup, Input, InputLabel } from "@material-ui/core";
-import { Add, ArrowRight, Delete, Edit } from "@material-ui/icons";
-import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import { OperatorsContext } from "../../contexts/operatorsContext";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Operator, OperatorsContext } from "../../contexts/operatorsContext";
+
+import { Button, Input } from "@material-ui/core";
+import { Add, ArrowRight } from "@material-ui/icons";
 import OperatorItem from "../operatorItem";
 import { OperatorListContainer } from "./styles";
 
-type Operator = {
-  id: number,
-  nome: string
-}
 type OperatorsListProps = {
   operators: Operator[]
 }
 
 export default function OperatorsList({ operators: initialOperators }: OperatorsListProps) {
-  const {operators, setOperators} = useContext(OperatorsContext);
+  const { operators, setOperators, createOperator } = useContext(OperatorsContext);
   const [creating, setCreating] = useState(false)
+
+  const createInputRef = useRef<HTMLInputElement>();
 
   useEffect(() => {
     setOperators(initialOperators)
   }, [])
 
   function addButtonHandler() {
-    //axios.post()
     setCreating(prevState => !prevState)
   }
-  function createButtonHandler() {
-    //axios.post()
+
+  async function createButtonHandler() {
+    const nome = createInputRef.current.value;
+    await createOperator(nome);
     setCreating(false)
   }
 
@@ -41,7 +40,10 @@ export default function OperatorsList({ operators: initialOperators }: Operators
         </Button>
       ) : (
         <>
-          <Input type="text" />
+          <Input
+            type="text"
+            inputRef={createInputRef}
+          />
           <Button onClick={() => createButtonHandler()}>
             <ArrowRight />
           </Button>

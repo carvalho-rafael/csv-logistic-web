@@ -9,9 +9,9 @@ export type Operator = {
 interface OperatorsContextData {
   operators: Operator[],
   setOperators: Dispatch<SetStateAction<Operator[]>>,
-  createOperator: () => Promise<void>,
+  createOperator: (nome: string) => Promise<void>,
   deleteOperator: (id: number) => Promise<void>,
-  updateOperator: (id:number, nome: string) => Promise<void>
+  updateOperator: (id: number, nome: string) => Promise<void>
 }
 
 interface OperatorsProviderProps {
@@ -24,18 +24,26 @@ export function OperatorsProvider({ children }: OperatorsProviderProps) {
 
   const [operators, setOperators] = useState<Operator[]>([]);
 
-  async function createOperator() {
+  async function createOperator(nome: string) {
+    const updatedOperators = await axios
+      .post(`${process.env.NEXT_PUBLIC_API}operators`, { name: nome })
+      .then(response => response.data);
 
+    setOperators(updatedOperators)
   }
 
   async function deleteOperator(id: number) {
+    const updatedOperators = await axios
+      .delete(`${process.env.NEXT_PUBLIC_API}operators/${id}`)
+      .then(response => response.data);
+
+    setOperators(updatedOperators)
 
   }
 
   async function updateOperator(id: number, nome: string) {
-    console.log(nome)
     const updatedOperators = await axios
-      .patch(`${process.env.NEXT_PUBLIC_API}operators/${id}`, {name: nome})
+      .patch(`${process.env.NEXT_PUBLIC_API}operators/${id}`, { name: nome })
       .then(response => response.data);
 
     setOperators(updatedOperators)

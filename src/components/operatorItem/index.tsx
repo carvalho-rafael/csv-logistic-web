@@ -1,13 +1,9 @@
-import { Button, Input } from "@material-ui/core";
-import { Add, ArrowRight, Delete, Edit } from "@material-ui/icons";
-import { useContext, useEffect, useRef, useState } from "react";
-import { OperatorsContext } from "../../contexts/operatorsContext";
-import { OperatorItemContainer, OperatorItemName } from "./styles";
+import { useContext, useRef, useState } from "react";
+import { Operator, OperatorsContext } from "../../contexts/operatorsContext";
 
-type Operator = {
-  id: number,
-  nome: string
-}
+import { Button, Input } from "@material-ui/core";
+import { ArrowRight, Delete, Edit } from "@material-ui/icons";
+import { OperatorItemContainer, OperatorItemName } from "./styles";
 
 type OperatorItemProps = {
   operator: Operator
@@ -19,19 +15,18 @@ export default function OperatorItem({ operator }: OperatorItemProps) {
 
   const editInputRef = useRef<HTMLInputElement>();
 
-  function deleteButtonHandler(id: number) {
-    operator
-
+  async function deleteButtonHandler(id: number) {
+    await deleteOperator(id);
   }
 
   function editButtonHandler(id: number) {
-    setEditing(prevState => !prevState)
+    setEditing(prevState => !prevState);
   }
 
   async function updateButtonHandler(id: number) {
     const nome = editInputRef.current.value;
-    await updateOperator(id, nome)
-    setEditing(false)
+    await updateOperator(id, nome);
+    setEditing(false);
   }
 
   return (
