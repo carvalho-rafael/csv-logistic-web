@@ -33,7 +33,7 @@ export default function ClientsRegisterForm() {
     <FormContainer>
       <label htmlFor='file'>
         <CloudUpload />
-        <span>Selecionar arquivo</span>
+        <span>Adicionar Clientes</span>
       </label>
       <Input
         style={{ display: 'none' }}

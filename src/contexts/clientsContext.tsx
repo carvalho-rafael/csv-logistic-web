@@ -7,7 +7,7 @@ export type Client = {
   nome: string,
   email: string,
   aniversario: string,
-  value: number
+  valor: number
 }
 
 export type OperatorClients = {
