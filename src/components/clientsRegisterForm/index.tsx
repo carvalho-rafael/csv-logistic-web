@@ -3,12 +3,14 @@ import { CloudUpload } from "@material-ui/icons";
 import axios from "axios";
 import { useState, ChangeEvent, useContext, useRef } from "react";
 import { ClientsContext, OperatorClients } from "../../contexts/clientsContext";
+import { OperatorsContext } from "../../contexts/operatorsContext";
 import { FormContainer } from "./styles";
 
 export default function ClientsRegisterForm() {
   const [selectedFile, setSelectedFile] = useState<File>()
   const [selected, setSelected] = useState(false)
   const { setClients } = useContext(ClientsContext)
+  const { operators } = useContext(OperatorsContext)
 
   const fileRef = useRef<HTMLInputElement>();
 
@@ -27,6 +29,12 @@ export default function ClientsRegisterForm() {
     setClients(savedClients)
     setSelectedFile(null)
     setSelected(false)
+  }
+
+  if(operators.length === 0) {
+    return(
+      <p>Cadastre pelo menos um Operador antes de adicionar clients.</p>
+    )
   }
 
   return (
