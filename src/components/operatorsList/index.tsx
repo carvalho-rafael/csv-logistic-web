@@ -42,6 +42,7 @@ export default function OperatorsList({ operators: initialOperators }: Operators
         <>
           <Input
             type="text"
+            placeholder="+ Novo Operador"
             inputRef={createInputRef}
           />
           <Button onClick={() => createButtonHandler()}>

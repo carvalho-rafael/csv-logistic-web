@@ -44,11 +44,11 @@ export default function Home({ operators, clients }: HomeProps) {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const operators = await axios
     .get(`${process.env.NEXT_PUBLIC_API}operators`)
-    .then(response => response)
+    .then(response => response.data)
 
   const clients = await axios
     .get(`${process.env.NEXT_PUBLIC_API}clients`)
-    .then(response => response)
+    .then(response => response.data)
 
   return {
     props: {

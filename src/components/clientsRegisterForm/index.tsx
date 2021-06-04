@@ -1,8 +1,8 @@
-import { Button, ButtonBase, FormGroup, Input, InputLabel } from "@material-ui/core";
+import { Button, Input } from "@material-ui/core";
 import { CloudUpload } from "@material-ui/icons";
 import axios from "axios";
-import { useState, ChangeEvent, useContext } from "react";
-import { Client, ClientsContext, OperatorClients } from "../../contexts/clientsContext";
+import { useState, ChangeEvent, useContext, useRef } from "react";
+import { ClientsContext, OperatorClients } from "../../contexts/clientsContext";
 import { FormContainer } from "./styles";
 
 export default function ClientsRegisterForm() {
@@ -10,14 +10,14 @@ export default function ClientsRegisterForm() {
   const [selected, setSelected] = useState(false)
   const { setClients } = useContext(ClientsContext)
 
+  const fileRef = useRef<HTMLInputElement>();
+
   function onChangeFileHandler(event: ChangeEvent<HTMLInputElement>) {
     setSelectedFile(event.target.files[0])
     setSelected(true);
   }
 
   async function uploadButtonHandler() {
-    if (!selected) return;
-
     const data = new FormData()
     data.append('file', selectedFile)
     const savedClients = await axios
@@ -25,6 +25,8 @@ export default function ClientsRegisterForm() {
       .then(response => response.data);
 
     setClients(savedClients)
+    setSelectedFile(null)
+    setSelected(false)
   }
 
   return (
@@ -33,7 +35,14 @@ export default function ClientsRegisterForm() {
         <CloudUpload />
         <span>Selecionar arquivo</span>
       </label>
-      <Input style={{ display: 'none' }} type="file" name="file" id='file' onChange={onChangeFileHandler} />
+      <Input
+        style={{ display: 'none' }}
+        type="file"
+        name="file"
+        id='file'
+        onChange={onChangeFileHandler}
+        inputRef={fileRef}
+      />
       <Button
         type="button"
         onClick={uploadButtonHandler}
