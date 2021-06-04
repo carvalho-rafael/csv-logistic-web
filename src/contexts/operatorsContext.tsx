@@ -21,7 +21,6 @@ interface OperatorsProviderProps {
 export const OperatorsContext = createContext({} as OperatorsContextData);
 
 export function OperatorsProvider({ children }: OperatorsProviderProps) {
-
   const [operators, setOperators] = useState<Operator[]>([]);
 
   async function createOperator(nome: string) {
@@ -29,7 +28,7 @@ export function OperatorsProvider({ children }: OperatorsProviderProps) {
       .post(`${process.env.NEXT_PUBLIC_API}operators`, { name: nome })
       .then(response => response.data);
 
-    setOperators(updatedOperators)
+    setOperators(updatedOperators);
   }
 
   async function deleteOperator(id: number) {
@@ -37,8 +36,7 @@ export function OperatorsProvider({ children }: OperatorsProviderProps) {
       .delete(`${process.env.NEXT_PUBLIC_API}operators/${id}`)
       .then(response => response.data);
 
-    setOperators(updatedOperators)
-
+    setOperators(updatedOperators);
   }
 
   async function updateOperator(id: number, nome: string) {
@@ -46,7 +44,7 @@ export function OperatorsProvider({ children }: OperatorsProviderProps) {
       .patch(`${process.env.NEXT_PUBLIC_API}operators/${id}`, { name: nome })
       .then(response => response.data);
 
-    setOperators(updatedOperators)
+    setOperators(updatedOperators);
   }
 
   return (
@@ -63,4 +61,3 @@ export function OperatorsProvider({ children }: OperatorsProviderProps) {
     </OperatorsContext.Provider>
   )
 }
-
